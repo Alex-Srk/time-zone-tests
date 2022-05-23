@@ -1,0 +1,16 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.xml
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:loansV2Test}
+    username: ${DB_USERNAME:loansV2Test}
+    password: ${DB_PASSWORD:loansV2Test}
+    hikari:
+      maximum-pool-size: ${POOL_SIZE:40}

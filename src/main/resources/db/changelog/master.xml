@@ -1,0 +1,99 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<changeSet id="0" author="alex">
+		<sql>
+			set time zone 'UTC';
+		</sql>
+		<createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
+		<createSequence incrementBy="1" sequenceName="events_local_seq" startValue="1"/>
+		<createTable tableName="events_local">
+			<column name="id" type="BIGINT">
+				<constraints primaryKey="true" primaryKeyName="eventsLocalPK"/>
+			</column>
+			<column name="entity_created" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="entity_version" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="entity_updated" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="due_date" type="date">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="1" author="alex">
+		<insert tableName="events_local">
+			<column name="id" valueComputed="nextval('events_local_seq')"/>
+			<column name="entity_version" value="0"/>
+			<column name="entity_created" valueComputed="'2022-02-22 22:02:22'::timestamp"/>
+			<column name="entity_updated" valueComputed="'2022-02-22 22:02:22'::timestamp"/>
+			<column name="timestamp" valueComputed="'2022-02-23 02:02:22'::timestamp"/>
+			<column name="due_date" valueComputed="'2022-02-23'::date"/>
+			<column name="description" value="First local event"/>
+		</insert>
+	</changeSet>
+	<changeSet id="2" author="alex">
+		<createSequence incrementBy="1" sequenceName="events_offset_seq" startValue="1"/>
+		<createTable tableName="events_offset">
+			<column name="id" type="BIGINT">
+				<constraints primaryKey="true" primaryKeyName="eventsOffsetPK"/>
+			</column>
+			<column name="entity_created" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="entity_version" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="entity_updated" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+				<constraints nullable="false"/>
+			</column>
+			<column name="due_date" type="date">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="3" author="alex">
+		<insert tableName="events_offset">
+			<column name="id" valueComputed="nextval('events_offset_seq')"/>
+			<column name="entity_version" value="0"/>
+			<column name="entity_created" valueComputed="'2022-02-22 22:02:22'::timestamp"/>
+			<column name="entity_updated" valueComputed="'2022-02-22 22:02:22'::timestamp"/>
+			<column name="timestamp" valueComputed="'2022-02-22 22:02:22'::timestamp"/>
+			<column name="due_date" valueComputed="'2022-02-23'::date"/>
+			<column name="description" value="First offset event"/>
+		</insert>
+	</changeSet>
+	<changeSet id="4" author="alex">
+		<sql>
+			ALTER TABLE events_local
+			ALTER COLUMN timestamp
+				TYPE timestamp with time zone
+				USING timestamp - interval '4 hours';
+			ALTER TABLE events_local
+				ALTER COLUMN entity_created
+					TYPE timestamp with time zone;
+		</sql>
+		<sql>
+			ALTER TABLE events_offset
+    		ALTER COLUMN timestamp
+    			TYPE timestamp with time zone
+		</sql>
+	</changeSet>
+</databaseChangeLog>

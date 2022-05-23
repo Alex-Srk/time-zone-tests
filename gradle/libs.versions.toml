@@ -1,0 +1,15 @@
+[versions]
+testcontainers = "1.16.2"
+hibernate_types = "2.10.1"
+kotest = "5.1.0"
+kotest_spring = "1.1.0"
+
+[libraries]
+testcontainers_junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers_postgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+hibernate_types = { module = "com.vladmihalcea:hibernate-types-52", version.ref = "hibernate_types" }
+
+kotest_runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest_assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest_spring = { module = "io.kotest.extensions:kotest-extensions-spring", version.ref = "kotest_spring" }
+kotest_testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest" }
