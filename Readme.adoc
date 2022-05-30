@@ -1,0 +1,21 @@
+= time-zone-tests
+Project illustrates different approaches to timezones and helps one wrap their head around it
+
+== Time zones migration
+:icons: font
+:timestamptz: pass:[footnote:[See https://www.postgresql.org/docs/current/datatype-datetime.html[Postgres documentation] <br/> \
+Also: https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-timestamp/[Tutorial] (the first result from Google 🙂 at the time of writing).]]
+:localdate: footnote:[This asymmetry is necessary as dates without time cannot be converted back to Local time zone after being converted from Local time to UTC.]
+
+=== Motivation
+
+Make date-time related operations in the system as consistent as possible without sacrificing too much of the usage ergonomics.
+
+=== Core principles of the solution
+
+* Force explicit conversions where necessary and automate them if unambiguous.
+** Set JDBC and JVM time zones to the product/country time zone via environment variables
+** Public APIs communicate in LocalDateTime semantics where possible, the date-time is Local to the product.
+** All timestamps in the database are in UTC, mapping Postgres' `timestamp with time zone`{timestamptz} to `java.time.Instant`.
+** Only do the conversion from/to `Instant` using the provided utility methods that take configured time zone into account.
+** Dates are saved as Local. Example: *Jan 01 2022* in the database means *Jan 01 2022* in the time zone configured for the app and should be used without additional conversion.{localdate}
