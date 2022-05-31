@@ -1,17 +1,19 @@
 = time-zone-tests
-Project illustrates different approaches to timezones and helps one wrap their head around it
+:doctype: article
+:icons: font
+
+Project can be used to test approaches to working with time zones and helps one wrap their head around it.
 
 == Time zones migration
-:icons: font
-:timestamptz: pass:[footnote:[See https://www.postgresql.org/docs/current/datatype-datetime.html[Postgres documentation] <br/> \
-Also: https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-timestamp/[Tutorial] (the first result from Google 🙂 at the time of writing).]]
-:localdate: footnote:[This asymmetry is necessary as dates without time cannot be converted back to Local time zone after being converted from Local time to UTC.]
 
 === Motivation
 
 Make date-time related operations in the system as consistent as possible without sacrificing too much of the usage ergonomics.
 
 === Core principles of the solution
+:timestamptz: pass:[footnote:[See https://www.postgresql.org/docs/current/datatype-datetime.html[Postgres documentation] <br/> \
+Also: https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-timestamp/[Tutorial] (the first result from Google 🙂 at the time of writing).]]
+:localdate: footnote:[This asymmetry is necessary as dates without time cannot be converted back to Local time zone after being converted from Local time to UTC.]
 
 * Force explicit conversions where necessary and automate them if unambiguous.
 ** Set JDBC and JVM time zones to the product/country time zone via environment variables
